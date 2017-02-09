@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/zi/Mehatron/DesktopClient/build",
+  "command": "/usr/bin/c++   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/zi/Mehatron/DesktopClient/build -I/home/zi/Mehatron/DesktopClient -I/home/zi/Mehatron/DesktopClient/include -I/home/zi/Mehatron/DesktopClient/libs -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++  -g   -fPIC -o CMakeFiles/RoboticHand.dir/src/wrobotichand.cpp.o -c /home/zi/Mehatron/DesktopClient/src/wrobotichand.cpp",
+  "file": "/home/zi/Mehatron/DesktopClient/src/wrobotichand.cpp"
+},
+{
+  "directory": "/home/zi/Mehatron/DesktopClient/build",
+  "command": "/usr/bin/c++   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/zi/Mehatron/DesktopClient/build -I/home/zi/Mehatron/DesktopClient -I/home/zi/Mehatron/DesktopClient/include -I/home/zi/Mehatron/DesktopClient/libs -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++  -g   -fPIC -o CMakeFiles/RoboticHand.dir/src/main.cpp.o -c /home/zi/Mehatron/DesktopClient/src/main.cpp",
+  "file": "/home/zi/Mehatron/DesktopClient/src/main.cpp"
+},
+{
+  "directory": "/home/zi/Mehatron/DesktopClient/build",
+  "command": "/usr/bin/c++   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/home/zi/Mehatron/DesktopClient/build -I/home/zi/Mehatron/DesktopClient -I/home/zi/Mehatron/DesktopClient/include -I/home/zi/Mehatron/DesktopClient/libs -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++  -g   -fPIC -o CMakeFiles/RoboticHand.dir/RoboticHand_automoc.cpp.o -c /home/zi/Mehatron/DesktopClient/build/RoboticHand_automoc.cpp",
+  "file": "/home/zi/Mehatron/DesktopClient/build/RoboticHand_automoc.cpp"
+}
+]

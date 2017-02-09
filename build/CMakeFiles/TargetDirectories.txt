@@ -1,0 +1,8 @@
+/home/zi/Mehatron/DesktopClient/build/CMakeFiles/edit_cache.dir
+/home/zi/Mehatron/DesktopClient/build/CMakeFiles/rebuild_cache.dir
+/home/zi/Mehatron/DesktopClient/build/CMakeFiles/list_install_components.dir
+/home/zi/Mehatron/DesktopClient/build/CMakeFiles/install.dir
+/home/zi/Mehatron/DesktopClient/build/CMakeFiles/install/local.dir
+/home/zi/Mehatron/DesktopClient/build/CMakeFiles/install/strip.dir
+/home/zi/Mehatron/DesktopClient/build/CMakeFiles/RoboticHand.dir
+/home/zi/Mehatron/DesktopClient/build/CMakeFiles/RoboticHand_automoc.dir

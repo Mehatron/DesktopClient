@@ -1,0 +1,6 @@
+# Build and binary files
+buildl/
+
+# KDevelop
+.kdev4
+*.kdev4
