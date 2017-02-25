@@ -119,9 +119,11 @@ CMakeFiles/RoboticHand.dir/src/main.cpp.o
  /usr/include/qt5/QtWidgets/qsizepolicy.h
  /usr/include/qt5/QtWidgets/qwidget.h
 CMakeFiles/RoboticHand.dir/src/wrobotichand.cpp.o
+ ../include/exception.h
  ../include/wrobotichand.h
  /home/zi/Mehatron/DesktopClient/src/wrobotichand.cpp
  /usr/include/qt5/Gentoo/gentoo-qconfig.h
+ /usr/include/qt5/QtCore/QDebug
  /usr/include/qt5/QtCore/QEvent
  /usr/include/qt5/QtCore/QList
  /usr/include/qt5/QtCore/QMargins

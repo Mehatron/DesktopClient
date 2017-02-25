@@ -118,9 +118,11 @@ CMakeFiles/RoboticHand.dir/src/main.cpp.o: /usr/include/qt5/QtWidgets/qdesktopwi
 CMakeFiles/RoboticHand.dir/src/main.cpp.o: /usr/include/qt5/QtWidgets/qsizepolicy.h
 CMakeFiles/RoboticHand.dir/src/main.cpp.o: /usr/include/qt5/QtWidgets/qwidget.h
 
+CMakeFiles/RoboticHand.dir/src/wrobotichand.cpp.o: ../include/exception.h
 CMakeFiles/RoboticHand.dir/src/wrobotichand.cpp.o: ../include/wrobotichand.h
 CMakeFiles/RoboticHand.dir/src/wrobotichand.cpp.o: ../src/wrobotichand.cpp
 CMakeFiles/RoboticHand.dir/src/wrobotichand.cpp.o: /usr/include/qt5/Gentoo/gentoo-qconfig.h
+CMakeFiles/RoboticHand.dir/src/wrobotichand.cpp.o: /usr/include/qt5/QtCore/QDebug
 CMakeFiles/RoboticHand.dir/src/wrobotichand.cpp.o: /usr/include/qt5/QtCore/QEvent
 CMakeFiles/RoboticHand.dir/src/wrobotichand.cpp.o: /usr/include/qt5/QtCore/QList
 CMakeFiles/RoboticHand.dir/src/wrobotichand.cpp.o: /usr/include/qt5/QtCore/QMargins

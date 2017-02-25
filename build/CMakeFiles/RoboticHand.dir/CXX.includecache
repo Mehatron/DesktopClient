@@ -6,8 +6,24 @@
 
 #IncludeRegexTransform: 
 
+../include/exception.h
+exception
+-
+string
+-
+ostream
+-
+QDebug
+-
+
 ../include/wrobotichand.h
 QWidget
+-
+thread
+-
+websocketpp/config/asio_no_tls_client.hpp
+-
+websocketpp/client.hpp
 -
 
 /home/zi/Mehatron/DesktopClient/build/RoboticHand_automoc.cpp
@@ -23,8 +39,14 @@ wrobotichand.h
 /home/zi/Mehatron/DesktopClient/src/wrobotichand.h
 QtGui
 -
+exception.h
+/home/zi/Mehatron/DesktopClient/src/exception.h
 
 /usr/include/qt5/Gentoo/gentoo-qconfig.h
+
+/usr/include/qt5/QtCore/QDebug
+qdebug.h
+/usr/include/qt5/QtCore/qdebug.h
 
 /usr/include/qt5/QtCore/QEvent
 qcoreevent.h
