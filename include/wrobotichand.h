@@ -9,6 +9,8 @@
 
 class WRoboticHand : public QWidget
 {
+    Q_OBJECT
+
 public:
     WRoboticHand(QWidget *parent = nullptr);
     ~WRoboticHand(void);
