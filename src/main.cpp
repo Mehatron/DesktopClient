@@ -1,13 +1,13 @@
 #include <QApplication>
 
-#include "wcentral.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    WCentral widget;
-    widget.show();
+    MainWindow mainWindow;
+    mainWindow.show();
 
     return app.exec();
 }

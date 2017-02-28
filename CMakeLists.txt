@@ -18,6 +18,7 @@ include_directories(
 )
 
 set(SOURCES
+    src/mainwindow.cpp
     src/wcentral.cpp
     src/wrobotichand.cpp
     src/joypad.cpp
@@ -27,6 +28,7 @@ set(SOURCES
 )
 
 set(MOC_HEADERS
+    include/mainwindow.h
     include/wcentral.h
     include/wrobotichand.h
     include/joypad.h
