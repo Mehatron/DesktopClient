@@ -44,6 +44,10 @@ private:
 
     void messageRecived(const websocketpp::connection_hdl &hdl, const WSClient::message_ptr &msg);
 
+    void drawConstruction(QPainter &p, int x, int y, int w);
+    void drawRotation(QPainter &p, int x, int y);
+    void drawGrab(QPainter &p, int x, int y);
+
     WSClient m_socket;
     std::thread m_reciverThread;
 
