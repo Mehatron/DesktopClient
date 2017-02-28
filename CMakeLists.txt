@@ -18,19 +18,26 @@ include_directories(
 )
 
 set(SOURCES
+    src/wcentral.cpp
     src/wrobotichand.cpp
     src/joypad.cpp
+
+    libs/joystick.cc
+    libs/analogclock.cpp
 )
 
 set(MOC_HEADERS
+    include/wcentral.h
     include/wrobotichand.h
     include/joypad.h
+
+    libs/analogclock.h
 )
 
 qt5_wrap_cpp(MOC_OUTFILES ${MOC_HEADERS})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
-add_executable(${PROJECT_NAME} ${SOURCES} src/main.cpp libs/joystick.cc ${MOC_OUTFILES})
+add_executable(${PROJECT_NAME} ${SOURCES} src/main.cpp ${MOC_OUTFILES})
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} Qt5::Widgets Threads::Threads)
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)

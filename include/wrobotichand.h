@@ -12,8 +12,10 @@ class WRoboticHand : public QWidget
     Q_OBJECT
 
 public:
-    WRoboticHand(QWidget *parent = nullptr);
-    ~WRoboticHand(void);
+    explicit WRoboticHand(QWidget *parent = nullptr);
+    virtual ~WRoboticHand(void);
+
+    virtual inline QSize sizeHint(void) const override { return QSize(400, 400); };
 
     enum Mode {
         ModeAutomatic = 0,

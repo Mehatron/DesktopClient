@@ -14,9 +14,9 @@ class Joypad : public QObject
     Q_OBJECT
 
 public:
-    Joypad(QObject *prent = 0);
-    Joypad(int joystick, QObject *parent = 0);
-    ~Joypad(void);
+    explicit Joypad(QObject *prent = 0);
+    explicit Joypad(int joystick, QObject *parent = 0);
+    virtual ~Joypad(void);
 
     enum Action {
         ActionConstructionRight = 0,

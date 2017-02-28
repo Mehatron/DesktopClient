@@ -1,12 +1,12 @@
 #include <QApplication>
 
-#include "wrobotichand.h"
+#include "wcentral.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    WRoboticHand widget;
+    WCentral widget;
     widget.show();
 
     return app.exec();
