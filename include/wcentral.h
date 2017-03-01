@@ -3,7 +3,10 @@
 
 #include <QWidget>
 
+#include "robotichandcore.h"
+
 class WRoboticHand;
+class WControl;
 class Joypad;
 
 class WCentral : public QWidget
@@ -18,6 +21,7 @@ private:
     void setupGUI(void);
 
     WRoboticHand *m_wRoboticHand;
+    WControl *m_wControl;
     Joypad *m_joypad;
 
 public slots:

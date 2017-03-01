@@ -1,10 +1,11 @@
 #include "wcentral.h"
 
 #include <QtGui>
-#include <QGridLayout>
+#include <QtWidgets>
 #include "analogclock.h"
 
 #include "wrobotichand.h"
+#include "wcontrol.h"
 #include "joypad.h"
 
 WCentral::WCentral(QWidget *parent)
@@ -24,9 +25,9 @@ void WCentral::setupGUI(void)
      * Create widgets
      */
 
-    QGridLayout *layoutMain = new QGridLayout;
-
     m_wRoboticHand = new WRoboticHand(this);
+
+    m_wControl = new WControl(this);
 
     AnalogClock *analogClock = new AnalogClock(this);
     analogClock->setUseAntialiasing(true);
@@ -39,8 +40,19 @@ void WCentral::setupGUI(void)
      * Laydown widgets
      */
 
-    layoutMain->addWidget(m_wRoboticHand, 0, 0);
-    layoutMain->addWidget(analogClock, 0, 1);
+    QVBoxLayout *layoutMain = new QVBoxLayout;
+    QHBoxLayout *layoutVisualizer = new QHBoxLayout;
+    QHBoxLayout *layoutControl = new QHBoxLayout;
+
+    layoutVisualizer->addWidget(m_wRoboticHand);
+    layoutVisualizer->addWidget(analogClock);
+
+    layoutControl->addWidget(m_wControl);
+    layoutControl->addStretch(1);
+
+    layoutMain->addLayout(layoutVisualizer);
+    layoutMain->addStretch(1);
+    layoutMain->addLayout(layoutControl);
 
     setLayout(layoutMain);
 }
