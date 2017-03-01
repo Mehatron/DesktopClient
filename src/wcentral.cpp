@@ -109,7 +109,15 @@ void WCentral::disconnect(void)
 
 void WCentral::openJoystick(const QString &device)
 {
-    m_joypad->open(device);
+    bool success = true;
+
+    try {
+        m_joypad->open(device);
+    } catch(Exception &ex) {
+        qDebug() << ex.what();
+        QMessageBox::warning(this, tr("Robotic Hand"),
+                             tr("Can't open joystick: %1").arg(device));
+    }
 }
 
 void WCentral::update(void)

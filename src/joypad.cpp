@@ -1,6 +1,5 @@
 #include "joypad.h"
 
-#include <QDebug>
 #include <chrono>
 
 #include "exception.h"
@@ -13,7 +12,6 @@ Joypad::Joypad(QObject *parent)
 
 Joypad::Joypad(const QString &joystick, QObject *parent)
     : QObject(parent),
-      m_joystick(joystick.toStdString()),
       m_threadRunning(false)
 {
     open(joystick);
@@ -26,8 +24,13 @@ Joypad::~Joypad(void)
 
 void Joypad::open(const QString &joystick)
 {
-    m_joystick = Joystick(joystick.toStdString());
-    if(!m_joystick.isFound())
+    if(m_threadRunning)
+        close();
+
+    //m_joystick = Joystick(joystick.toStdString());
+    //m_joystick.openPath(joystick.toStdString());
+    m_joystick = std::shared_ptr<Joystick>(new Joystick(joystick.toStdString()));
+    if(!m_joystick->isFound())
         throw Exception("Can't open joystick");
 
     std::lock_guard<std::mutex> lkMutex(m_mutex);
@@ -40,6 +43,9 @@ void Joypad::open(const QString &joystick)
 void Joypad::close(void)
 {
     std::lock_guard<std::mutex> lkMutex(m_mutex);
+    if(!m_threadRunning)
+        return;
+
     m_threadRunning = false;
     m_cvRunning.notify_all();
 
@@ -58,7 +64,7 @@ void Joypad::update(void)
             == std::cv_status::timeout)
         {
             JoystickEvent event;
-            if(!m_joystick.sample(&event))
+            if(!m_joystick->sample(&event))
                 continue;
 
             if(event.isButton())

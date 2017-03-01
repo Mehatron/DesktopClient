@@ -24,7 +24,6 @@
 
 Joystick::Joystick()
 {
-  openPath("/dev/input/js0");
 }
 
 Joystick::Joystick(int joystickNumber)
@@ -52,7 +51,7 @@ void Joystick::openPath(std::string devicePath, bool blocking)
 
 bool Joystick::sample(JoystickEvent* event)
 {
-  int bytes = read(_fd, event, sizeof(*event)); 
+  int bytes = read(_fd, event, sizeof(*event));
 
   if (bytes == -1)
     return false;
@@ -79,5 +78,3 @@ std::ostream& operator<<(std::ostream& os, const JoystickEvent& e)
      << " value=" << static_cast<int>(e.value);
   return os;
 }
-
-

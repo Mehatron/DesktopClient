@@ -6,6 +6,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <memory>
 #include "joystick.hh"
 
 #include "robotichandcore.h"
@@ -27,7 +28,7 @@ public:
 private:
     void update(void);
 
-    Joystick m_joystick;
+    std::shared_ptr<Joystick>(m_joystick);
 
     std::thread m_thread;
     std::mutex m_mutex;

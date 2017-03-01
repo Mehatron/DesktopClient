@@ -14,7 +14,7 @@ public:
 
     void setState(const RoboticHandCore::State &state);
 
-    virtual inline QSize sizeHint(void) const override { return QSize(400, 400); };
+    virtual inline QSize sizeHint(void) const override { return QSize(500, 500); };
 
 protected:
     void paintEvent(QPaintEvent *event) override;
