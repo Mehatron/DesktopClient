@@ -124,7 +124,7 @@ void AnalogClock::redraw(void)
 
 QSize AnalogClock::sizeHint(void) const
 {
-    return QSize(100, 100);
+    return QSize(500, 500);
 }
 
 void AnalogClock::anglesFromTime(const QTime &time, double *hours, double *minutes, double *seconds)
@@ -154,4 +154,3 @@ void AnalogClock::resizeEvent(QResizeEvent *event)
 
     event->accept();
 }
-

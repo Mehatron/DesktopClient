@@ -34,6 +34,7 @@ void WCentral::setupGUI(void)
      */
 
     m_wRoboticHand = new WRoboticHand(this);
+    m_wRoboticHand->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     m_wControl = new WControl(this);
     QObject::connect(m_wControl, &WControl::sendCommand,
@@ -61,7 +62,7 @@ void WCentral::setupGUI(void)
     layoutControl->addStretch(1);
 
     layoutMain->addLayout(layoutVisualizer);
-    layoutMain->addStretch(1);
+    //layoutMain->addStretch(1);
     layoutMain->addLayout(layoutControl);
 
     setLayout(layoutMain);
