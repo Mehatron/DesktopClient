@@ -146,9 +146,9 @@ void WControl::setState(const RoboticHandCore::State &state)
     } else
     {
         if(state.mode == RoboticHandCore::ModeAutomatic)
-            m_btnMode->setText(tr("Automatic"));
-        else if(state.mode == RoboticHandCore::ModeManual)
             m_btnMode->setText(tr("Manual"));
+        else if(state.mode == RoboticHandCore::ModeManual)
+            m_btnMode->setText(tr("Automatic"));
         m_btnMode->setShortcut(tr("M"));
 
         if(m_btnMode->isEnabled())

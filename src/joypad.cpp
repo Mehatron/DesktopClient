@@ -29,7 +29,6 @@ void Joypad::open(const QString &joystick)
     m_joystick = Joystick(joystick.toStdString());
     if(!m_joystick.isFound())
         throw Exception("Can't open joystick");
-    }
 
     std::lock_guard<std::mutex> lkMutex(m_mutex);
     m_threadRunning = true;
