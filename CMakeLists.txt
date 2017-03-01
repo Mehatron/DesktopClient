@@ -21,6 +21,7 @@ set(SOURCES
     src/mainwindow.cpp
     src/wcentral.cpp
     src/wrobotichand.cpp
+    src/wcontrol.cpp
     src/joypad.cpp
 
     libs/joystick.cc
@@ -31,6 +32,7 @@ set(MOC_HEADERS
     include/mainwindow.h
     include/wcentral.h
     include/wrobotichand.h
+    include/wcontrol.h
     include/joypad.h
 
     libs/analogclock.h
