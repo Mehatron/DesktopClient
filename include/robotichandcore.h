@@ -28,4 +28,8 @@ private:
     RoboticHandCore(void) {};
 };
 
+bool operator==(const RoboticHandCore::State &lhs, const RoboticHandCore::State &rhs);
+inline bool operator!=(const RoboticHandCore::State &lhs, const RoboticHandCore::State &rhs)
+    { return !operator==(lhs, rhs); };
+
 #endif // _ROBOTIC_HAND_CORE_H_

@@ -2,8 +2,10 @@
 
 #include <QtGui>
 #include <QtWidgets>
+#include "json.hpp"
 #include "analogclock.h"
 
+#include "exception.h"
 #include "wrobotichand.h"
 #include "wcontrol.h"
 #include "joypad.h"
@@ -17,6 +19,9 @@ WCentral::WCentral(QWidget *parent)
 
 WCentral::~WCentral(void)
 {
+    try {
+        disconnect();
+    } catch(...) {};
 }
 
 void WCentral::setupGUI(void)
@@ -59,4 +64,72 @@ void WCentral::setupGUI(void)
 
 void WCentral::connect(const QString &address)
 {
+        try {
+        m_socket.set_message_handler([this](const websocketpp::connection_hdl &hdl,
+                                            const WSClient::message_ptr &msg)
+            {
+                messageRecived(hdl, msg);
+            });
+        m_socket.init_asio();
+
+        websocketpp::lib::error_code error;
+        WSClient::connection_ptr con = m_socket.get_connection(address.toStdString(), error);
+        if(error)
+            throw Exception("Communication error: " + std::string(error.message()));
+
+        m_socket.connect(con);
+        m_reciverThread = std::thread([this]()
+            {
+                m_socket.run();
+            });
+    } catch(websocketpp::exception &ex) {
+        throw Exception("Communication error: " + std::string(ex.what()));
+    }
+}
+
+void WCentral::disconnect(void)
+{
+    try {
+        if(m_reciverThread.joinable())
+			m_reciverThread.join();
+    } catch(websocketpp::exception &ex) {
+        throw Exception("Communication error: " + std::string(ex.what()));
+    }
+}
+
+void WCentral::update(void)
+{
+    m_wControl->setState(m_state);
+    m_wRoboticHand->setState(m_state);
+}
+
+void WCentral::messageRecived(const websocketpp::connection_hdl &hdl, const WSClient::message_ptr &msg)
+{
+    std::string message = msg->get_payload();
+    nlohmann::json data = nlohmann::json::parse(message);
+
+    RoboticHandCore::State state;
+    state.constructionDown = data["construction_down"];
+    state.constructionUp = data["construction_up"];
+    state.left= data["construction_left"];
+    state.right = data["construction_right"];
+    state.rotationDown = data["rotation_down"];
+    state.rotationUp = data["rotation_up"];
+    state.extendsUnextended = data["extends_unextended"];
+    state.extendsExtended = data["extends_extended"];
+    state.picked = data["picked"];
+
+    std::string mode = data["mode"].get<std::string>();
+    if(mode == "automatic")
+        state.mode = RoboticHandCore::ModeAutomatic;
+    else if(mode == "manual")
+        state.mode = RoboticHandCore::ModeManual;
+    else
+        state.mode = RoboticHandCore::ModeLock;
+
+    if(m_state != state)
+    {
+        m_state = state;
+        update();
+    }
 }

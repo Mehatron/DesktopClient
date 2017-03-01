@@ -23,6 +23,7 @@ set(SOURCES
     src/wrobotichand.cpp
     src/wcontrol.cpp
     src/joypad.cpp
+    src/robotichandcore.cpp
 
     libs/joystick.cc
     libs/analogclock.cpp
