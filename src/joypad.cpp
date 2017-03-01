@@ -1,5 +1,6 @@
 #include "joypad.h"
 
+#include <QDebug>
 #include <chrono>
 
 #include "exception.h"
@@ -10,9 +11,9 @@ Joypad::Joypad(QObject *parent)
 {
 }
 
-Joypad::Joypad(int joystick, QObject *parent)
+Joypad::Joypad(const QString &joystick, QObject *parent)
     : QObject(parent),
-      m_joystick(joystick),
+      m_joystick(joystick.toStdString()),
       m_threadRunning(false)
 {
     open(joystick);
@@ -23,11 +24,12 @@ Joypad::~Joypad(void)
     close();
 }
 
-void Joypad::open(int joystick)
+void Joypad::open(const QString &joystick)
 {
-    m_joystick = Joystick(joystick);
+    m_joystick = Joystick(joystick.toStdString());
     if(!m_joystick.isFound())
         throw Exception("Can't open joystick");
+    }
 
     std::lock_guard<std::mutex> lkMutex(m_mutex);
     m_threadRunning = true;

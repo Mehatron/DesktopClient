@@ -23,6 +23,7 @@ public:
 
     void connect(const QString &address);
     void disconnect(void);
+    void openJoystick(const QString &device);
 
 private:
     typedef websocketpp::client<websocketpp::config::asio_client> WSClient;

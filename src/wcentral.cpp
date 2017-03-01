@@ -14,6 +14,9 @@ WCentral::WCentral(QWidget *parent)
     : QWidget(parent)
 {
     m_joypad = new Joypad(this);
+    QObject::connect(m_joypad, &Joypad::sendCommand,
+                     this, &WCentral::sendCommand);
+
     setupGUI();
 }
 
@@ -103,6 +106,11 @@ void WCentral::disconnect(void)
     }
 }
 
+void WCentral::openJoystick(const QString &device)
+{
+    m_joypad->open(device);
+}
+
 void WCentral::update(void)
 {
     m_wControl->setState(m_state);
@@ -142,5 +150,7 @@ void WCentral::messageRecived(const websocketpp::connection_hdl &hdl, const WSCl
 
 void WCentral::sendCommand(const QString &command)
 {
-    m_socket.send(m_hdl, command.toStdString(), websocketpp::frame::opcode::text);
+    try {
+        m_socket.send(m_hdl, command.toStdString(), websocketpp::frame::opcode::text);
+    } catch(...) {};
 }

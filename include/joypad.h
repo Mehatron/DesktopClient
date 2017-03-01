@@ -16,12 +16,12 @@ class Joypad : public QObject
 
 public:
     explicit Joypad(QObject *prent = 0);
-    explicit Joypad(int joystick, QObject *parent = 0);
+    explicit Joypad(const QString &joystick, QObject *parent = 0);
     virtual ~Joypad(void);
 
     static const int AnalogIntensity        = 20000;
 
-    void open(int joystick = 0);
+    void open(const QString &joystick);
     void close(void);
 
 private:

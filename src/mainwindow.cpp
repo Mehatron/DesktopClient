@@ -93,7 +93,6 @@ void MainWindow::actionConnectClick(void)
     if(ok)
     {
         address = "ws://" + address + ":8272/";
-        qDebug() << address;
         try {
             m_centralWidget->connect(address);
         } catch(Exception &ex) {
@@ -106,7 +105,7 @@ void MainWindow::actionConnectClick(void)
 void MainWindow::actionJoystickClick(void)
 {
     QString device = ((QAction *)sender())->text();
-    qDebug() << "Joystick: " << device;
+    m_centralWidget->openJoystick(device);
 }
 
 void MainWindow::actionAboutClick(void)
