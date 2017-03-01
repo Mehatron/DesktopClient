@@ -6,8 +6,9 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
-
 #include "joystick.hh"
+
+#include "robotichandcore.h"
 
 class Joypad : public QObject
 {
@@ -17,22 +18,6 @@ public:
     explicit Joypad(QObject *prent = 0);
     explicit Joypad(int joystick, QObject *parent = 0);
     virtual ~Joypad(void);
-
-    enum Action {
-        ActionConstructionRight = 0,
-        ActionConstructionUp,
-        ActionConstructionLeft,
-        ActionConstructionDown,
-        ActionRightRight,
-        ActionRightUp,
-        ActionRightLeft,
-        ActionRightDown,
-        ActionGrab,
-        ActionMotor1,
-        ActionMotor2,
-        ActionMotor3R,
-        ActionMotor3L
-    };
 
     static const int AnalogIntensity        = 20000;
 
@@ -50,7 +35,7 @@ private:
     std::condition_variable m_cvRunning;
 
 signals:
-    void action(int action);
+    void sendCommand(const QString &command);
 };
 
 #endif // _JOYPAD_H_

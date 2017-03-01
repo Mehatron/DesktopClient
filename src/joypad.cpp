@@ -67,32 +67,47 @@ void Joypad::update(void)
                     switch(event.number)
                     {
                         case 0:
-                            emit action(ActionRightLeft);
+                            emit sendCommand("right_left");
                             break;
                         case 1:
-                            emit action(ActionRightDown);
+                            emit sendCommand("right_down");
                             break;
                         case 2:
-                            emit action(ActionRightRight);
+                            emit sendCommand("right_right");
                             break;
                         case 3:
-                            emit action(ActionGrab);
+                            emit sendCommand("grab_toggle");
                             break;
                         case 4:
-                            emit action(ActionMotor1);
+                            emit sendCommand("motor1_start");
                             break;
                         case 6:
-                            emit action(ActionMotor2);
+                            emit sendCommand("motor2_start");
                             break;
                         case 5:
-                            emit action(ActionMotor3R);
+                            emit sendCommand("motor3_start_right");
                             break;
                         case 7:
-                            emit action(ActionMotor3L);
+                            emit sendCommand("motor3_start_left");
                             break;
                     }
                 } else
                 {
+                    switch(event.number)
+                    {
+                        case 4:
+                            emit sendCommand("motor1_stop");
+                            break;
+                        case 6:
+                            emit sendCommand("motor2_stop");
+                            break;
+                        case 5:
+                            emit sendCommand("motor3_stop_right");
+                            break;
+                        case 7:
+                            emit sendCommand("motor3_stop_left");
+                            break;
+                    }
                 }
             } else if(event.isAxis())
             {
@@ -100,15 +115,15 @@ void Joypad::update(void)
                 {
                     case 0:
                         if(event.value > Joypad::AnalogIntensity)
-                            emit action(ActionConstructionRight);
+                            emit sendCommand("move_right");
                         else if(event.value < -Joypad::AnalogIntensity)
-                            emit action(ActionConstructionLeft);
+                            emit sendCommand("move_left");
                         break;
                     case 1:
                         if(event.value > Joypad::AnalogIntensity)
-                            emit action(ActionConstructionDown);
+                            emit sendCommand("move_down");
                         else if(event.value < -Joypad::AnalogIntensity)
-                            emit action(ActionConstructionUp);
+                            emit sendCommand("move_up");
                 }
             }
         }
