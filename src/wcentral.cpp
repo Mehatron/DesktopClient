@@ -33,6 +33,8 @@ void WCentral::setupGUI(void)
     m_wRoboticHand = new WRoboticHand(this);
 
     m_wControl = new WControl(this);
+    QObject::connect(m_wControl, &WControl::sendCommand,
+            this, &WCentral::sendCommand);
 
     AnalogClock *analogClock = new AnalogClock(this);
     analogClock->setUseAntialiasing(true);
@@ -64,11 +66,13 @@ void WCentral::setupGUI(void)
 
 void WCentral::connect(const QString &address)
 {
-        try {
+    try {
         m_socket.set_message_handler([this](const websocketpp::connection_hdl &hdl,
                                             const WSClient::message_ptr &msg)
             {
-                messageRecived(hdl, msg);
+                try {
+                    messageRecived(hdl, msg);
+                } catch(...) {};
             });
         m_socket.init_asio();
 
@@ -76,6 +80,8 @@ void WCentral::connect(const QString &address)
         WSClient::connection_ptr con = m_socket.get_connection(address.toStdString(), error);
         if(error)
             throw Exception("Communication error: " + std::string(error.message()));
+
+        m_hdl = con->get_handle();
 
         m_socket.connect(con);
         m_reciverThread = std::thread([this]()
@@ -111,8 +117,8 @@ void WCentral::messageRecived(const websocketpp::connection_hdl &hdl, const WSCl
     RoboticHandCore::State state;
     state.constructionDown = data["construction_down"];
     state.constructionUp = data["construction_up"];
-    state.left= data["construction_left"];
-    state.right = data["construction_right"];
+    state.left= data["left"];
+    state.right = data["right"];
     state.rotationDown = data["rotation_down"];
     state.rotationUp = data["rotation_up"];
     state.extendsUnextended = data["extends_unextended"];
@@ -132,4 +138,9 @@ void WCentral::messageRecived(const websocketpp::connection_hdl &hdl, const WSCl
         m_state = state;
         update();
     }
+}
+
+void WCentral::sendCommand(const QString &command)
+{
+    m_socket.send(m_hdl, command.toStdString(), websocketpp::frame::opcode::text);
 }

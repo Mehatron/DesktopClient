@@ -3,6 +3,7 @@
 #include <QtGui>
 #include <QtWidgets>
 
+#include "exception.h"
 #include "wcentral.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -91,7 +92,14 @@ void MainWindow::actionConnectClick(void)
                                             &ok);
     if(ok)
     {
+        address = "ws://" + address + ":8272/";
         qDebug() << address;
+        try {
+            m_centralWidget->connect(address);
+        } catch(Exception &ex) {
+            QMessageBox::critical(this, tr("Robotic Hand"),
+                                  tr("Connection to SCADA server failed"));
+        }
     }
 }
 

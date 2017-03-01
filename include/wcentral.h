@@ -36,9 +36,13 @@ private:
     Joypad *m_joypad;
 
     WSClient m_socket;
+    websocketpp::connection_hdl m_hdl;
     std::thread m_reciverThread;
     std::mutex m_mutexState;
     RoboticHandCore::State m_state;
+
+private slots:
+    void sendCommand(const QString &command);
 };
 
 #endif // _W_CENTRAL_
