@@ -5,6 +5,9 @@
 WRoboticHand::WRoboticHand(QWidget *parent)
     : QWidget(parent)
 {
+    connect(this, &WRoboticHand::shouldRepaint, [this]() {
+        update();
+    });
 }
 
 WRoboticHand::~WRoboticHand(void)
@@ -14,7 +17,7 @@ WRoboticHand::~WRoboticHand(void)
 void WRoboticHand::setState(const RoboticHandCore::State &state)
 {
     m_state = state;
-    repaint();
+    emit shouldRepaint();
 }
 
 void WRoboticHand::paintEvent(QPaintEvent *event)

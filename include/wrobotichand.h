@@ -25,6 +25,9 @@ private:
     void drawGrab(QPainter &p, int x, int y);
 
     RoboticHandCore::State m_state;
+
+signals:
+    void shouldRepaint(void);
 };
 
 #endif // _W_ROBOTIC_HAND_H_
