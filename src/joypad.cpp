@@ -2,6 +2,8 @@
 
 #include <chrono>
 
+#include <QDebug>
+
 #include "exception.h"
 
 Joypad::Joypad(QObject *parent)
@@ -27,8 +29,6 @@ void Joypad::open(const QString &joystick)
     if(m_threadRunning)
         close();
 
-    //m_joystick = Joystick(joystick.toStdString());
-    //m_joystick.openPath(joystick.toStdString());
     m_joystick = std::shared_ptr<Joystick>(new Joystick(joystick.toStdString()));
     if(!m_joystick->isFound())
         throw Exception("Can't open joystick");
@@ -131,6 +131,19 @@ void Joypad::update(void)
                             emit sendCommand("move_down");
                         else if(event.value < -Joypad::AnalogIntensity)
                             emit sendCommand("move_up");
+                        break;
+                    case 2:
+                        if(event.value > Joypad::AnalogIntensity)
+                            emit sendCommand("right_right");
+                        else if(event.value < -Joypad::AnalogIntensity)
+                            emit sendCommand("right_left");
+                        break;
+                    case 3:
+                        if(event.value > Joypad::AnalogIntensity)
+                            emit sendCommand("right_down");
+                        else if(event.value < -Joypad::AnalogIntensity)
+                            emit sendCommand("right_up");
+                        break;
                 }
             }
         }
