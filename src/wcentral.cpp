@@ -11,7 +11,8 @@
 #include "joypad.h"
 
 WCentral::WCentral(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),
+      m_socket(nullptr)
 {
     m_joypad = new Joypad(this);
     QObject::connect(m_joypad, &Joypad::sendCommand,
@@ -22,9 +23,7 @@ WCentral::WCentral(QWidget *parent)
 
 WCentral::~WCentral(void)
 {
-    try {
-        disconnect();
-    } catch(...) {};
+    disconnect();
 }
 
 void WCentral::setupGUI(void)
@@ -68,43 +67,23 @@ void WCentral::setupGUI(void)
     setLayout(layoutMain);
 }
 
-void WCentral::connect(const QString &address)
+void WCentral::connect(const QString &address, int port)
 {
-    try {
-        m_socket.set_message_handler([this](const websocketpp::connection_hdl &hdl,
-                                            const WSClient::message_ptr &msg)
-            {
-                try {
-                    messageRecived(hdl, msg);
-                } catch(...) {};
-            });
-        m_socket.init_asio();
+    disconnect();
 
-        websocketpp::lib::error_code error;
-        WSClient::connection_ptr con = m_socket.get_connection(address.toStdString(), error);
-        if(error)
-            throw Exception("Communication error: " + std::string(error.message()));
+    m_socket = new QTcpSocket(this);
 
-        m_hdl = con->get_handle();
-
-        m_socket.connect(con);
-        m_reciverThread = std::thread([this]()
-            {
-                m_socket.run();
-            });
-    } catch(websocketpp::exception &ex) {
-        throw Exception("Communication error: " + std::string(ex.what()));
-    }
+    m_socket->connectToHost(address, port);
+    if(!m_socket->waitForConnected(1000))
+        throw Exception("Connection error: " + m_socket->errorString().toStdString());
+    QObject::connect(m_socket, &QTcpSocket::readyRead,
+                     this, &WCentral::readyRead);
 }
 
 void WCentral::disconnect(void)
 {
-    try {
-        if(m_reciverThread.joinable())
-			m_reciverThread.join();
-    } catch(websocketpp::exception &ex) {
-        throw Exception("Communication error: " + std::string(ex.what()));
-    }
+    if(m_socket)
+        sendCommand("close");
 }
 
 void WCentral::openJoystick(const QString &device)
@@ -120,21 +99,32 @@ void WCentral::openJoystick(const QString &device)
     }
 }
 
-void WCentral::update(void)
+void WCentral::updateState(void)
 {
     m_wControl->setState(m_state);
     m_wRoboticHand->setState(m_state);
 }
 
-void WCentral::messageRecived(const websocketpp::connection_hdl &hdl, const WSClient::message_ptr &msg)
+void WCentral::sendCommand(const QString &command)
 {
-    std::string message = msg->get_payload();
-    nlohmann::json data = nlohmann::json::parse(message);
+    if(!m_socket)
+        return;
+
+    QByteArray buffer = command.toLocal8Bit();
+    for(int i = buffer.size(); i < 1024; i++)
+        buffer.push_back('\0');
+    m_socket->write(buffer);
+}
+
+void WCentral::readyRead(void)
+{
+    QString message = m_socket->readAll();
+    nlohmann::json data = nlohmann::json::parse(message.toStdString());
 
     RoboticHandCore::State state;
     state.constructionDown = data["construction_down"];
     state.constructionUp = data["construction_up"];
-    state.left= data["left"];
+    state.left = data["left"];
     state.right = data["right"];
     state.rotationDown = data["rotation_down"];
     state.rotationUp = data["rotation_up"];
@@ -153,13 +143,6 @@ void WCentral::messageRecived(const websocketpp::connection_hdl &hdl, const WSCl
     if(m_state != state)
     {
         m_state = state;
-        update();
+        updateState();
     }
-}
-
-void WCentral::sendCommand(const QString &command)
-{
-    try {
-        m_socket.send(m_hdl, command.toStdString(), websocketpp::frame::opcode::text);
-    } catch(...) {};
 }

@@ -92,10 +92,11 @@ void MainWindow::actionConnectClick(void)
                                             &ok);
     if(ok)
     {
-        address = "ws://" + address + ":8272/";
+        //address = "ws://" + address + ":8272/";
         try {
-            m_centralWidget->connect(address);
+            m_centralWidget->connect(address, 8273);
         } catch(Exception &ex) {
+            qDebug() << ex.what();
             QMessageBox::critical(this, tr("Robotic Hand"),
                                   tr("Connection to SCADA server failed"));
         }

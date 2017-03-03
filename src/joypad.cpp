@@ -60,7 +60,7 @@ void Joypad::update(void)
     std::unique_lock<std::mutex> lkMutex(m_mutex);
     while(m_threadRunning)
     {
-        while(m_cvRunning.wait_for(lkMutex, std::chrono::milliseconds(10))
+        while(m_cvRunning.wait_for(lkMutex, std::chrono::milliseconds(1))
             == std::cv_status::timeout)
         {
             JoystickEvent event;

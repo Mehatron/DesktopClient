@@ -2,10 +2,7 @@
 #define _W_CENTRAL_
 
 #include <QWidget>
-#include <thread>
-#include <mutex>
-#include <websocketpp/config/asio_no_tls_client.hpp>
-#include <websocketpp/client.hpp>
+#include <QTcpSocket>
 
 #include "robotichandcore.h"
 
@@ -21,29 +18,25 @@ public:
     explicit WCentral(QWidget *parent = 0);
     virtual ~WCentral(void);
 
-    void connect(const QString &address);
+    void connect(const QString &address, int port);
     void disconnect(void);
     void openJoystick(const QString &device);
 
 private:
-    typedef websocketpp::client<websocketpp::config::asio_client> WSClient;
-
     void setupGUI(void);
-    void update(void);
-    void messageRecived(const websocketpp::connection_hdl &hdl, const WSClient::message_ptr &msg);
+    void updateState(void);
 
     WRoboticHand *m_wRoboticHand;
     WControl *m_wControl;
     Joypad *m_joypad;
 
-    WSClient m_socket;
-    websocketpp::connection_hdl m_hdl;
-    std::thread m_reciverThread;
-    std::mutex m_mutexState;
+    QTcpSocket *m_socket;
+
     RoboticHandCore::State m_state;
 
 private slots:
     void sendCommand(const QString &command);
+    void readyRead(void);
 };
 
 #endif // _W_CENTRAL_
