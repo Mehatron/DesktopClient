@@ -8,7 +8,8 @@
 
 Joypad::Joypad(QObject *parent)
     : QObject(parent),
-      m_threadRunning(false)
+      m_threadRunning(false),
+      m_state(0)
 {
 }
 
@@ -60,7 +61,7 @@ void Joypad::update(void)
     std::unique_lock<std::mutex> lkMutex(m_mutex);
     while(m_threadRunning)
     {
-        while(m_cvRunning.wait_for(lkMutex, std::chrono::milliseconds(1))
+        while(m_cvRunning.wait_for(lkMutex, std::chrono::milliseconds(10))
             == std::cv_status::timeout)
         {
             JoystickEvent event;
@@ -109,10 +110,8 @@ void Joypad::update(void)
                             emit sendCommand("motor2_stop");
                             break;
                         case 5:
-                            emit sendCommand("motor3_stop_right");
-                            break;
                         case 7:
-                            emit sendCommand("motor3_stop_left");
+                            emit sendCommand("motor3_stop");
                             break;
                     }
                 }
@@ -122,27 +121,100 @@ void Joypad::update(void)
                 {
                     case 0:
                         if(event.value > Joypad::AnalogIntensity)
-                            emit sendCommand("move_right");
-                        else if(event.value < -Joypad::AnalogIntensity)
-                            emit sendCommand("move_left");
+                        {
+                            if(!(m_state & AnalogStateLRight))
+                            {
+                                emit sendCommand("move_right");
+                                m_state |= AnalogStateLRight;
+                            }
+                        } else
+                        {
+                            m_state &= ~AnalogStateLRight;
+                        }
+                        if(event.value < -Joypad::AnalogIntensity)
+                        {
+                            if(!(m_state & AnalogStateLLeft))
+                            {
+                                emit sendCommand("move_left");
+                                m_state |= AnalogStateLLeft;
+                            }
+                        } else
+                        {
+                            m_state &= ~AnalogStateLLeft;
+                        }
                         break;
                     case 1:
                         if(event.value > Joypad::AnalogIntensity)
-                            emit sendCommand("move_down");
-                        else if(event.value < -Joypad::AnalogIntensity)
-                            emit sendCommand("move_up");
+                        {
+                            if(!(m_state & AnalogStateLDown))
+                            {
+                                emit sendCommand("move_down");
+                                m_state |= AnalogStateLDown;
+                            }
+                        } else
+                        {
+                            m_state &= ~AnalogStateLDown;
+                        }
+                        if(event.value < -Joypad::AnalogIntensity)
+                        {
+                            if(!(m_state & AnalogStateLUp))
+                            {
+                                emit sendCommand("move_up");
+                                m_state |= AnalogStateLUp;
+                            }
+                        } else
+                        {
+                            m_state &= ~AnalogStateLUp;
+                        }
                         break;
                     case 2:
                         if(event.value > Joypad::AnalogIntensity)
-                            emit sendCommand("right_right");
-                        else if(event.value < -Joypad::AnalogIntensity)
-                            emit sendCommand("right_left");
+                        {
+                            if(!(m_state & AnalogStateRRight))
+                            {
+                                emit sendCommand("right_right");
+                                m_state |= AnalogStateRRight;
+                            }
+                        } else
+                        {
+                            m_state &= ~AnalogStateRRight;
+                        }
+                        if(event.value < -Joypad::AnalogIntensity &&
+                            !(m_state & AnalogStateRLeft))
+                        {
+                            if(!(m_state & AnalogStateRLeft))
+                            {
+                                emit sendCommand("right_left");
+                                m_state |= AnalogStateRLeft;
+                            }
+                        } else
+                        {
+                            m_state &= ~AnalogStateRLeft;
+                        }
                         break;
                     case 3:
                         if(event.value > Joypad::AnalogIntensity)
-                            emit sendCommand("right_down");
-                        else if(event.value < -Joypad::AnalogIntensity)
-                            emit sendCommand("right_up");
+                        {
+                            if(!(m_state & AnalogStateRDown))
+                            {
+                                emit sendCommand("right_down");
+                                m_state |= AnalogStateRDown;
+                            }
+                        } else
+                        {
+                            m_state &= ~(AnalogStateRDown);
+                        }
+                        if(event.value < -Joypad::AnalogIntensity)
+                        {
+                            if(!(m_state & AnalogStateRUp))
+                            {
+                                emit sendCommand("right_up");
+                                m_state |= AnalogStateRUp;
+                            }
+                        } else
+                        {
+                            m_state &= ~(AnalogStateRUp);
+                        }
                         break;
                 }
             }
