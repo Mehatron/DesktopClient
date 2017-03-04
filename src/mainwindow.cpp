@@ -37,7 +37,7 @@ void MainWindow::setupActions(void)
             this, SLOT(actionAboutClick()));
 
     m_actionConnect = new QAction(tr("&Connect"), this);
-    m_actionConnect->setShortcut(tr("Ctrl+C"));
+    m_actionConnect->setShortcut(tr("Ctrl+O"));
     m_actionConnect->setToolTip(tr("Connect to SCADA server"));
     m_actionConnect->setStatusTip(tr("Connect to SCADA server"));
     connect(m_actionConnect, SIGNAL(triggered(bool)),

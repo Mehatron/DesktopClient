@@ -63,6 +63,8 @@ void WRoboticHand::drawConstruction(QPainter &p, int x, int y, int w)
 {
     p.setBrush(Qt::green);
     p.drawRect(x, y, w, 25);
+    p.setBrush(Qt::magenta);
+    p.drawRect(x, y + 25, 25, height() - y - 25);
 }
 
 void WRoboticHand::drawRotation(QPainter &p, int x, int y)
@@ -95,7 +97,7 @@ void WRoboticHand::drawGrab(QPainter &p, int x, int y)
 
     int w = 50;
     if(m_state.picked)
-        w += 25;
+        w += 15;
     p.setBrush(Qt::yellow);
     p.drawRect(-75, h + 15, w, 15);
     p.drawRect(90 - w, h + 15, w, 15);
